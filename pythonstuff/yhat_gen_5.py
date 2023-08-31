@@ -33,9 +33,16 @@ if len(df) > 9000:
 actual_time_buffer = df["ds"]
 # Will fail if df longer than 10000 minutes
 
+# RESET INDEX
+df = df.reset_index(drop=True)
+#print(df.head())
+
 
 
 yraw = df["y"]
+
+print(len(yraw))
+yraw[0]
 
 yfilt = []
 for ind in range(0,len(yraw)):
