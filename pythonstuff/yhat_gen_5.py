@@ -29,7 +29,7 @@ print("Size of test_input.csv:", len(df))
 
 
 if len(df) > 9000:
-    df = df[0: 9000]
+    df = df[len(df) - 9000: -1]
 actual_time_buffer = df["ds"]
 # Will fail if df longer than 10000 minutes
 
