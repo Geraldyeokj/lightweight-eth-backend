@@ -28,8 +28,8 @@ df = pd.read_csv('test_input.csv')
 print("Size of test_input.csv:", len(df))
 
 
-if len(df) > 10000:
-    df = df[0: 10000]
+if len(df) > 9000:
+    df = df[0: 9000]
 actual_time_buffer = df["ds"]
 # Will fail if df longer than 10000 minutes
 
