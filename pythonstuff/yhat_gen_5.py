@@ -59,7 +59,7 @@ for ind in range(0,len(yraw)):
 #for i in yfilt:
 #    print(i)
 # find peaks in smoothed signal
-peaks, props = scipy.signal.find_peaks(yfilt, distance = 500, height = 25)
+peaks, props = scipy.signal.find_peaks(yfilt, distance = 500, height = 2)
 # find peaks in noisy signal using wavelet decomposition
 cwt_peaks = scipy.signal.find_peaks_cwt(yraw, widths=np.arange(5, 15))
 
