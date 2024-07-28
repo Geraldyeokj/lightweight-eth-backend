@@ -6,7 +6,7 @@ const path = require('node:path');
 exports.initScheduledJobs = () => {
     console.log("CRON JOBS ACTIVATED");
     
-    const yhatUpdates = new CronJob("*/5 * * * *", async () => {
+    const yhatUpdates = new CronJob("*/10 * * * *", async () => {
         try{
             console.log('CRON JOB: Updating Yhat | Called every 3 minutes ----------------------------------');
             console.log("current directory:", __dirname)
@@ -23,10 +23,10 @@ exports.initScheduledJobs = () => {
                 python.kill()
                 console.log({
                     level: 'warn',
-                    message: 'Killed Yhat updating process. Took more than 2 minute 45 seconds.'
+                    message: 'Killed Yhat updating process. Took more than 9 minutes.'
                 });
-                console.log('Killed Yhat updating process. Took more than 2 minute 45 seconds.');
-            }, 165*1000, "Yhat child process took too long")
+                console.log('Killed Yhat updating process. Took more than 9 minutes.');
+            }, 9 * 60 * 1000, "Yhat child process took too long")
 
             python.stdout.on('data', (data) => {
                 console.log({
