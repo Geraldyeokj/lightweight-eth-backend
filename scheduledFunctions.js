@@ -1,27 +1,16 @@
 const CronJob = require('cron').CronJob;
 const { spawn } = require('child_process');
-const {createLogger, format, transports} = require("winston");
 const path = require('node:path'); 
 
-const winstonLogger = createLogger({
-    level: "debug",
-    format: format.combine(
-        format.timestamp(),
-        format.json()
-    ),
-    transports: [
-        new transports.File({ filename: 'combined.log' }),
-    ],
-});
 
 exports.initScheduledJobs = () => {
     console.log("CRON JOBS ACTIVATED");
     
-    const yhatUpdates = new CronJob("*/3 * * * *", async () => {
+    const yhatUpdates = new CronJob("*/5 * * * *", async () => {
         try{
             console.log('CRON JOB: Updating Yhat | Called every 3 minutes ----------------------------------');
             console.log("current directory:", __dirname)
-            winstonLogger.log({
+            console.log({
                 level: 'verbose',
                 message: 'CRON JOB: Updating Yhat | Called every 3 minutes'
             });
@@ -32,7 +21,7 @@ exports.initScheduledJobs = () => {
 
             setTimeout(() => {
                 python.kill()
-                winstonLogger.log({
+                console.log({
                     level: 'warn',
                     message: 'Killed Yhat updating process. Took more than 2 minute 45 seconds.'
                 });
@@ -40,7 +29,7 @@ exports.initScheduledJobs = () => {
             }, 165*1000, "Yhat child process took too long")
 
             python.stdout.on('data', (data) => {
-                winstonLogger.log({
+                console.log({
                     level: 'verbose',
                     message: data.toString()
                 });
@@ -48,7 +37,7 @@ exports.initScheduledJobs = () => {
             });
             
             python.stderr.on('data', (data) => {
-                winstonLogger.log({
+                console.log({
                     level: 'error',
                     message: data.toString()
                 });
@@ -56,7 +45,7 @@ exports.initScheduledJobs = () => {
             });
             
             python.on('error', (error) => {
-                winstonLogger.log({
+                console.log({
                     level: 'error',
                     message: error
                 });
@@ -64,7 +53,7 @@ exports.initScheduledJobs = () => {
             });
             
             python.on('close', (code) => {
-                winstonLogger.log({
+                console.log({
                     level: 'verbose',
                     message: `child process exited with code  ${code}`
                 });
@@ -72,7 +61,7 @@ exports.initScheduledJobs = () => {
             });
             console.log("finished generating yhat graph")
         } catch (err) {
-            winstonLogger.log({
+            console.log({
                 level: 'error',
                 message: err
             });
@@ -85,7 +74,7 @@ exports.initScheduledJobs = () => {
             console.log('CRON JOB: Updating Gas Prices | Called every minute (at the 15 second mark) ------------------');
             console.log("current directory:", __dirname)
             console.log("calling python program from", path.resolve(__dirname, "../../../"))
-            winstonLogger.log({
+            console.log({
                 level: 'verbose',
                 message: 'CRON JOB: Updating Gas Prices | Called every minute (at the 15 second mark)'
             });
@@ -95,7 +84,7 @@ exports.initScheduledJobs = () => {
             });
             setTimeout(() => {
                 process.kill()
-                winstonLogger.log({
+                console.log({
                     level: 'warn',
                     message: 'Killed Gas Price updating process. Took more than 30 seconds.'
                 });
@@ -103,7 +92,7 @@ exports.initScheduledJobs = () => {
             }, 30*1000, "Get gas price took too long")
 
             process.stdout.on('data', (data) => {
-                winstonLogger.log({
+                console.log({
                     level: 'verbose',
                     message: data.toString()
                 });
@@ -111,7 +100,7 @@ exports.initScheduledJobs = () => {
             });
             
             process.stderr.on('data', (data) => {
-                winstonLogger.log({
+                console.log({
                     level: 'error',
                     message: data.toString()
                 });
@@ -119,7 +108,7 @@ exports.initScheduledJobs = () => {
             });
             
             process.on('error', (error) => {
-                winstonLogger.log({
+                console.log({
                     level: 'error',
                     message: error
                 });
@@ -127,7 +116,7 @@ exports.initScheduledJobs = () => {
             });
             
             process.on('close', (code) => {
-                winstonLogger.log({
+                console.log({
                     level: 'verbose',
                     message: `child process exited with code  ${code}`
                 });
@@ -135,7 +124,7 @@ exports.initScheduledJobs = () => {
             });
             console.log("finished getting gas price")
         } catch (err) {
-            winstonLogger.log({
+            console.log({
                 level: 'error',
                 message: err
             });

@@ -23,9 +23,12 @@ def csv_appender(csv_name, row):
     print("inserting row:", row)
     df_extended = pd.DataFrame([row], columns=['ds', 'y'])
     # print("df_extended", df_extended)
-    if len(df) >= 3600:
-        df = df[1:]
+    
     df2 = pd.concat([df, df_extended])
+    print(df2)
+    if len(df2) > 7200:
+        df2 = df2[-7200:]
+    print(df2)
     df2.to_csv(csv_name, index=False )
 
 def update_queue():

@@ -25,6 +25,8 @@ cwd = os.getcwd()
 
 df = pd.read_csv('test_input.csv')
 
+print(df)
+
 print("Size of test_input.csv:", len(df))
 
 
@@ -79,7 +81,7 @@ print(df_time_interval)
 base = df["ds"][0]
 for i in range(0, len(df)):
     #df["ds"][i] = pd.to_datetime(datetime_ref["ds"][(df["ds"][i] // (60 * 1000)) - base], unit='s')
-    df["ds"][i] =  datetime.fromtimestamp(datetime_ref["ds"][(df["ds"][i] - base) // (60 * 1000)]).strftime("%Y-%m-%d")
+    df["ds"][i] =  datetime.fromtimestamp(datetime_ref["ds"][(max(0, df["ds"][i] - base)) // (60 * 1000)]).strftime("%Y-%m-%d")
     #df["ds"][i] = pd.to_datetime(df["ds"][i], format='%Y-%m-%d')
     
 df['ds'] = pd.to_datetime(df['ds'])
